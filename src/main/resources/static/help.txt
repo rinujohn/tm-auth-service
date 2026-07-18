@@ -78,3 +78,27 @@ INSERT INTO roles(name)
 VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
+
+
+user table insert:
+
+INSERT INTO users
+(
+    id,
+    email,
+    password_hash,
+    enabled,
+    account_locked,
+    account_expired,
+    credentials_expired
+)
+VALUES
+(
+    gen_random_uuid(),
+    'rinu',
+    '$2a$10$sB/SuVAAXM4qfS7/K66rp.BhSAPm.Ifyw3lI4nEHzUzUaYNsH6ZRG',
+    true,
+    false,
+    false,
+    false
+);
