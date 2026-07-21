@@ -9,6 +9,11 @@ to start psql to query
 create database
 CREATE DATABASE authdb;
 
+to list databases:
+\l
+to use a db from psql
+\c authdb
+
 to list tables : '\dt'
 
 
@@ -102,3 +107,64 @@ VALUES
     false,
     false
 );
+
+
+Enabling https in local :
+
+keytool -genkeypair \
+-alias localcert \
+-keyalg RSA \
+-keysize 2048 \
+-storetype PKCS12 \
+-keystore keystore.p12 \
+-validity 3650
+
+place the generated keystore in resource folder
+
+add configuration in properties
+
+server.port=8443
+
+server.ssl.enabled=true
+server.ssl.key-store=classpath:keystore.p12
+server.ssl.key-store-password=password
+server.ssl.key-store-type=PKCS12
+server.ssl.key-alias=localcert
+
+
+refresh token table:
+
+CREATE TABLE refresh_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    token_hash VARCHAR(255) NOT NULL UNIQUE,
+
+    user_id UUID NOT NULL,
+
+    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+
+    revoked BOOLEAN NOT NULL DEFAULT FALSE,
+
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    revoked_at TIMESTAMP WITH TIME ZONE,
+
+    CONSTRAINT fk_refresh_token_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
+
+index creation:
+
+CREATE INDEX idx_refresh_tokens_user_id
+    ON refresh_tokens(user_id);
+
+CREATE INDEX idx_refresh_tokens_expires_at
+    ON refresh_tokens(expires_at);
+
+
+
+created the table
+added the db index
+created the entity for refresh token

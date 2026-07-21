@@ -18,6 +18,7 @@ public class AuthenticationService {
 
     private final JwtService jwtService;
 
+    private final RefreshTokenService refreshTokenService;
 
     public LoginResponse login(LoginRequest request) {
         System.out.println("inside auth service");
@@ -38,7 +39,8 @@ public class AuthenticationService {
         String token =
                 jwtService.generateToken(user);
 
+        String refreshToken = refreshTokenService.createRefreshToken(user);
 
-        return new LoginResponse(token);
+        return new LoginResponse(token,refreshToken);
     }
 }
