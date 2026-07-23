@@ -1,6 +1,7 @@
 package com.tms.tm_auth_service.controller;
 
 import com.tms.tm_auth_service.dto.request.LoginRequest;
+import com.tms.tm_auth_service.dto.request.LogoutRequest;
 import com.tms.tm_auth_service.dto.request.RefreshTokenRequest;
 import com.tms.tm_auth_service.dto.response.LoginResponse;
 import com.tms.tm_auth_service.dto.response.RefreshTokenResponse;
@@ -8,6 +9,7 @@ import com.tms.tm_auth_service.service.AuthenticationService;
 import com.tms.tm_auth_service.service.JwtService;
 import com.tms.tm_auth_service.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,6 +62,13 @@ public class AuthController {
             RefreshTokenResponse response = refreshTokenService.validateRefreshToken(refreshToken);
            return ResponseEntity.ok(response);
 
+
+    }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(@RequestBody LogoutRequest request){
+        authenticationService.logout(request.refreshToken());
 
     }
 }
