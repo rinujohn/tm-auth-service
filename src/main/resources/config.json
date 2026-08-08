@@ -1,0 +1,4 @@
+{"database-url" : "jdbc:postgresql:///tmsdb",
+  "database-username" : "tms_app_user",
+  "database-password" : "mutrix-nozfoj-7Gonku"
+}

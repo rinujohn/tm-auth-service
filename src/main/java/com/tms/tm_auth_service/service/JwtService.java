@@ -14,8 +14,6 @@ import java.util.Date;
 public class JwtService {
 
 
-    //private final String SECRET =
-     //       "8f3a9c7d6e5b4a2918273645546372819f8e7d6c5b4a39281726354455667788";
 
     private final String SECRET;
 
